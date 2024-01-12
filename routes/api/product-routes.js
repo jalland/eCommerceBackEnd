@@ -23,7 +23,7 @@ router.get('/:id', async (req, res) => {
   // be sure to include its associated Category and Tag data
   try {
     const productData = await Product.findByPk(req.params.id, {
-      include: [{ model: Category},{ model: Tag, through: ProductTag }]
+      include: [ Category ,   { model: Tag, through: { model: ProductTag, as: 'product_tags' } },],
     });
 
     if (!productData) {
@@ -38,7 +38,6 @@ router.get('/:id', async (req, res) => {
 });
 
 // create new product
-router.post('/', (req, res) => {
   /* req.body should look like this...
     {
       "product_name": "Basketball",
@@ -47,6 +46,7 @@ router.post('/', (req, res) => {
       "tagIds": [1, 2, 3, 4]
     }
   */
+router.post('/', (req, res) => {
   Product.create(req.body)
     .then((product) => {
       // if there's product tags, we need to create pairings to bulk create in the ProductTag model
@@ -121,8 +121,8 @@ router.put('/:id', (req, res) => {
     });
 });
 
+// delete one product by its `id` value
 router.delete('/:id', async (req, res) => {
-  // delete one product by its `id` value
   try {
     //Must detroy product tag first
     await ProductTag.destroy({
