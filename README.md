@@ -4,7 +4,7 @@
 
 This application uses a server to do CRUD operations on a database. A user can get, post, put, and delete categories, products, and tags from each of these tables. 
 
-## Git code
+## Github code
 https://github.com/jalland/eCommerceBackEnd 
 
 
